@@ -1,0 +1,7 @@
+FROM ballerina/ballerina:1.0.5 AS BUILD_IMAGE
+
+USER root
+WORKDIR /home/work-dir
+COPY hello_service.bal /home/work-dir
+RUN ballerina build hello_service.bal
+USER ballerina

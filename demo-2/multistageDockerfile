@@ -1,0 +1,15 @@
+FROM ballerina/ballerina:1.0.5 AS build
+WORKDIR /home/work-dir
+COPY hello_service.bal /home/work-dir
+USER root
+RUN ballerina build hello_service.bal
+RUN pwd
+RUN ls
+USER ballerina
+
+FROM openjdk:8-jre-alpine
+COPY --from=build /home/work-dir/hello_service.jar /home/ballerina/
+EXPOSE  9090
+WORKDIR /home/ballerina/
+RUN ls
+CMD java -jar hello_service.jar
